@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.company.joeliomason.projectme">
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_add"
+        android:icon="@drawable/action_add"
+        android:title="@string/action_add"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+    <item android:id="@+id/action_copy"
+        android:icon="@drawable/action_copy"
+        android:title="@string/action_copy"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+    <item android:id="@+id/action_cal"
+        android:icon="@drawable/action_cal"
+        android:title="@string/action_calendar"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+
+</menu>
