@@ -29,7 +29,7 @@ import java.util.List;
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHolder> {
 
     private List<Card> cards;
-    private static Context mContext;
+    private Context mContext;
     private static CardDatabaseAdapter2 mCardDatabaseAdapter2;
     private ColorWheel mColorWheel = new ColorWheel();
 
@@ -127,7 +127,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                     if (count == 0) {
                         vh4.category = set.getCategory();
                         vh4.rl.setBackgroundColor(mColorWheel.getColor(vh4.category));
-                        vh4.vReps.setText(set.getReps() + "");
+                        vh4.vReps.setText(set.getReps());
                         vh4.vWeight.setText(set.getWeight() + "");
                     }
                     if(count == 1) {

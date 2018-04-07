@@ -19,6 +19,8 @@ import com.company.joeliomason.projectme.Adapters.CardAdapter;
 import com.company.joeliomason.projectme.Database.CardDatabaseAdapter2;
 import com.company.joeliomason.projectme.POJOs.Card;
 import com.company.joeliomason.projectme.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,8 @@ public class MainMenuView2 extends Fragment {
     LinearLayoutManager llm;
     CardView cd;
     String date;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
 
     @Override

@@ -37,6 +37,11 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="Login"
             android:parentActivityName=".Views.SplashScreenView" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Views.CategoryListView"
@@ -130,11 +135,7 @@
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation"
             android:label="Project Me">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
