@@ -1,93 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp">
+    android:layout_height="80dp"
+    android:layout_margin="10dp"
+    card_view:cardCornerRadius="6dp"
+    card_view:cardElevation="4dp"
+    card_view:cardMaxElevation="6dp">
 
     <RelativeLayout
+        android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        android:id="@+id/rl">
+        android:background="#FFFFFF">
 
         <TextView
+            android:id="@+id/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:text="Incline Dumbbell Chest Press"
-            android:background="#4CAF50"
-            android:textColor="#FFFFFF" />
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
         <!--Set 1-->
+        <View
+            style="@style/Divider"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/editText"
+            android:visibility="visible" />
+
         <TextView
+            android:id="@+id/textView7"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="500.0"
-            android:id="@+id/textView7"
-            android:layout_marginStart="99dp"
-            android:layout_below="@+id/editText"
             android:layout_alignParentStart="true"
-            android:gravity="right" />
+            android:layout_below="@+id/editText"
+            android:layout_marginStart="99dp"
+            android:gravity="right"
+            android:text="500.0"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
+            android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="KGs"
-            android:id="@+id/textView8"
-            android:paddingBottom="2dp"
             android:layout_alignBottom="@+id/textView7"
-            android:layout_toEndOf="@+id/textView7" />
+            android:layout_toEndOf="@+id/textView7"
+            android:paddingBottom="2dp"
+            android:text="KGs"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
+            android:id="@+id/textView9"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="99"
-            android:id="@+id/textView9"
-            android:layout_marginStart="36dp"
             android:layout_below="@+id/editText"
+            android:layout_marginStart="36dp"
             android:layout_toEndOf="@+id/textView8"
-            android:gravity="right" />
+            android:gravity="right"
+            android:text="99"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Reps"
-            android:paddingBottom="2dp"
             android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/textView9"
-            android:layout_toEndOf="@+id/textView9" />
+            android:layout_toEndOf="@+id/textView9"
+            android:paddingBottom="2dp"
+            android:text="Reps"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Set 1"
             android:id="@+id/textView27"
-            android:layout_alignTop="@+id/textView8"
-            android:layout_alignParentStart="true" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Show more"
+            android:layout_alignBottom="@+id/textView7"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:text="Set 1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
             android:id="@+id/textView32"
-            android:layout_below="@+id/textView27"
-            android:layout_alignParentEnd="true" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:text="Show more"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
 
     </RelativeLayout>
-
 
 
 </android.support.v7.widget.CardView>

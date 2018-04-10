@@ -2,6 +2,8 @@ package com.company.joeliomason.projectme.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,6 +73,17 @@ public class MainMenuView2 extends Fragment {
         recList.setAdapter(ca);
         ca.notifyDataSetChanged();
         //((MainMenuActivity) getActivity()).setDate(date);
+
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CategoryListView.class);
+                intent.putExtra("date", date);
+                startActivity(intent);
+            }
+        });
+
         return rootView;
     }
 
@@ -91,12 +104,6 @@ public class MainMenuView2 extends Fragment {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-
-        if(id == R.id.action_add) {
-            Intent intent = new Intent(getActivity(), CategoryListView.class);
-            intent.putExtra("date", date);
-            startActivity(intent);
         }
 
         if(id == R.id.action_cal) {

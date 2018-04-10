@@ -110,6 +110,7 @@ public class LoginView extends FragmentActivity implements GoogleApiClient.OnCon
             } else {
                 // Google Sign In failed
                 Log.e(TAG, "Google Sign In failed.");
+                Log.d(TAG, result.getStatus().toString());
             }
         }
     }

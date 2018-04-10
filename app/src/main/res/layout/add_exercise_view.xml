@@ -24,6 +24,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/minus"
+        style="@style/rounded_but"
         android:text="-"
         android:background="#BBFF3000"
         android:layout_below="@+id/name"

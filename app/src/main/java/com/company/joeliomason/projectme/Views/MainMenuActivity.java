@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -66,9 +69,6 @@ public class MainMenuActivity extends AppCompatActivity implements
             return;
         } else {
             mUsername = mFirebaseUser.getDisplayName();
-            if (mFirebaseUser.getPhotoUrl() != null) {
-                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
-            }
         }
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -76,14 +76,9 @@ public class MainMenuActivity extends AppCompatActivity implements
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
 
-        Glide.with(getApplicationContext()).load(mPhotoUrl)
-                .thumbnail(0.5f)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL);
-
         try {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+            //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
             getSupportActionBar().setDisplayUseLogoEnabled(true);
             getSupportActionBar().setTitle(mFirebaseUser.getDisplayName());
             //getSupportActionBar().setShowHideAnimationEnabled(true);
@@ -107,6 +102,9 @@ public class MainMenuActivity extends AppCompatActivity implements
         });
         mViewPager.getAdapter().notifyDataSetChanged();
         mViewPager.setOffscreenPageLimit(1);
+
+
+
 
 
     }
