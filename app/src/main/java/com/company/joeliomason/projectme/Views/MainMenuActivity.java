@@ -17,12 +17,18 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.company.joeliomason.projectme.POJOs.User;
 import com.company.joeliomason.projectme.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.TimeZone;
 
@@ -70,6 +76,30 @@ public class MainMenuActivity extends AppCompatActivity implements
         } else {
             mUsername = mFirebaseUser.getDisplayName();
         }
+
+        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        // Creating new user node, which returns the unique key value
+        // new user node would be /users/$userid/
+        final String userId = mFirebaseUser.getUid();
+        // creating user object
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    User user = new User(mFirebaseAuth.getCurrentUser().getDisplayName(), mFirebaseAuth.getCurrentUser().getEmail());
+
+                    // pushing user to 'users' node using the userId
+                    mDatabase.child(userId).setValue(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
@@ -150,6 +180,10 @@ public class MainMenuActivity extends AppCompatActivity implements
             String date = days.format("DD/MM/YYYY").toString();
             if(days.isSameDayAs(DateTime.now(TimeZone.getDefault()))) {
                 date = "Today";
+            } else if(days.isSameDayAs(pagerdate.minusDays(1))) {
+                date = "Yesterday";
+            } else if(days.isSameDayAs(pagerdate.plusDays(1))){
+                date = "Tomorrow";
             }
             return date;
         }

@@ -19,7 +19,12 @@ import com.company.joeliomason.projectme.Database.CardDatabaseAdapter2;
 import com.company.joeliomason.projectme.POJOs.Card;
 import com.company.joeliomason.projectme.POJOs.Exercise;
 import com.company.joeliomason.projectme.POJOs.Set;
+import com.company.joeliomason.projectme.POJOs.User;
 import com.company.joeliomason.projectme.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -42,6 +47,7 @@ public class AddExerciseView extends AppCompatActivity {
     ArrayList<Set> array;
     Card card;
     private AddExerciseAdapter mAddExerciseAdapter;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +56,12 @@ public class AddExerciseView extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             name = extras.getString("ExerciseName");
-            type = extras.getInt("ExerciseType");
             category = extras.getInt("ExerciseCategory");
             date = extras.getString("date");
 
         }
         mCardDatabaseAdapter2 = new CardDatabaseAdapter2(this);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         card = new Card(0, name, date);
         ActionBar actionBar = AddExerciseView.this.getSupportActionBar();
 
@@ -63,8 +69,7 @@ public class AddExerciseView extends AppCompatActivity {
             actionBar.setTitle("Barbell Chest Press");
         }
 
-        ex = new Exercise(name, type, category);
-        Log.v("Exercise Recieved", ex.toString());
+        ex = new Exercise(name, 1, category);
         workoutName = (TextView) findViewById(R.id.name);
         weight = (EditText) findViewById(R.id.textWeight);
         reps = (EditText) findViewById(R.id.textRep);
@@ -190,6 +195,16 @@ public class AddExerciseView extends AppCompatActivity {
             for(Set s : array) {
                 mCardDatabaseAdapter2.insert2(mCardDatabaseAdapter2.highestID(), name, s.getWeight(), s.getReps(), date, category);
             }
+            FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+            FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
+            String userId = mFirebaseUser.getUid();
+
+            // pushing user to 'users' node using the userId
+            mDatabase.child(userId).child("data").setValue(array);
+
+
+
             mCardDatabaseAdapter2.resetID();
             startActivity(intent);
         }

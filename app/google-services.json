@@ -15,6 +15,50 @@
       },
       "oauth_client": [
         {
+          "client_id": "1090468700941-huvu99ci0t31bnlclisq9skj8hjpqsui.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.joeliomason.projectme",
+            "certificate_hash": "f05454818c962e1b0fe7dff17bafd02e47f6eddc"
+          }
+        },
+        {
+          "client_id": "1090468700941-il266f0f597eo2nccp7lhaj6pbmmq2fn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw6T4pb8PC8rxYnGoEk_qyivq2Ah3lnXE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1090468700941-il266f0f597eo2nccp7lhaj6pbmmq2fn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090468700941:android:33bbfe70720f8df7",
+        "android_client_info": {
+          "package_name": "com.gymtracker.joelmason.gymtracker"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "1090468700941-il266f0f597eo2nccp7lhaj6pbmmq2fn.apps.googleusercontent.com",
           "client_type": 3
         }

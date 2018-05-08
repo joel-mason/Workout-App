@@ -26,6 +26,10 @@ import com.company.joeliomason.projectme.POJOs.Card;
 import com.company.joeliomason.projectme.POJOs.Exercise;
 import com.company.joeliomason.projectme.POJOs.Set;
 import com.company.joeliomason.projectme.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -237,6 +241,13 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
                 for (Set s : array) {
                     mCardDatabaseAdapter2.insert2(mCardDatabaseAdapter2.highestID(), name, s.getWeight(), s.getReps(), date, category);
                 }
+                FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+                FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
+                String userId = mFirebaseUser.getUid();
+
+                // pushing user to 'users' node using the userId
+                mDatabase.child(userId).child("data").setValue(array);
                 mCardDatabaseAdapter2.resetID();
             }
             startActivity(intent);

@@ -20,6 +20,8 @@ public class Card implements Serializable{
         sets = new ArrayList<>();
     }
 
+    public Card() {}
+
     public String getName() {
         return name;
     }

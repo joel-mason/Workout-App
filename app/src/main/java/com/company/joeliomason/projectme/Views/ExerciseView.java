@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,6 +17,11 @@ import com.company.joeliomason.projectme.Adapters.ExerciseAdapter;
 import com.company.joeliomason.projectme.Database.WorkoutDatabaseAdapter;
 import com.company.joeliomason.projectme.POJOs.Exercise;
 import com.company.joeliomason.projectme.R;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -25,25 +31,23 @@ import java.util.ArrayList;
 public class ExerciseView extends AppCompatActivity {
 
     private WorkoutDatabaseAdapter dbAdapter;
-    private static ArrayList<Exercise> values;
+    private static ArrayList<String> values;
     private ListView mListView;
     private ExerciseAdapter mExerciseAdapter;
-    private static int x;
-    private static String y;
+    private static int categoryId;
+    private static String categoryName;
     static String date;
+    private DatabaseReference mDatabase;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbAdapter = new WorkoutDatabaseAdapter(this);
         values = new ArrayList<>();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            x = extras.getInt("workoutID");
-            y = extras.getString("WorkoutName");
+            categoryId = extras.getInt("workoutID");
+            categoryName = extras.getString("WorkoutName");
             date = extras.getString("date");
-            Log.v("WorkoutID", String.valueOf(x));
-            Log.v("date", date);
         }
 
         setContentView(R.layout.exercise_view);
@@ -51,31 +55,65 @@ public class ExerciseView extends AppCompatActivity {
         ActionBar actionBar = ExerciseView.this.getSupportActionBar();
 
         if (actionBar != null) {
-            actionBar.setTitle(y);
+            actionBar.setTitle(categoryName);
         }
         mListView = (ListView) findViewById(R.id.listview);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
+        mListView.setAdapter(adapter);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase.child("exercises").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    if(dataSnapshot1.getKey().equals("category " + categoryId)) {
+                        for(DataSnapshot ds : dataSnapshot1.getChildren()) {
+                            adapter.add((String) ds.getValue());
+                            values.add((String) ds.getValue());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                adapter.remove((String) dataSnapshot.child("title").getValue());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        /**
         dbAdapter = new WorkoutDatabaseAdapter(this);
         values = dbAdapter.getExercisePerCategory1(x);
 
         mExerciseAdapter = new ExerciseAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, values);
         mListView.setAdapter(mExerciseAdapter);
+         **/
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> av, View view, int i, long l) {
                 Intent intent;
-                if(values.get(i).getCategory() == 7) {
+                if(categoryId == 7) {
                     intent = new Intent(ExerciseView.this, AddCardioActivity.class);
-                    intent.putExtra("ExerciseName", values.get(i).getName());
-                    intent.putExtra("ExerciseType", values.get(i).getType());
-                    intent.putExtra("ExerciseCategory", values.get(i).getCategory());
-                    intent.putExtra("date", date);
                 } else {
                     intent = new Intent(ExerciseView.this, AddExerciseActivity.class);
-                    intent.putExtra("ExerciseName", values.get(i).getName());
-                    intent.putExtra("ExerciseType", values.get(i).getType());
-                    intent.putExtra("ExerciseCategory", values.get(i).getCategory());
-                    intent.putExtra("date", date);
                 }
+                intent.putExtra("ExerciseName", values.get(i));
+                intent.putExtra("ExerciseCategory", categoryId);
+                intent.putExtra("date", date);
                 startActivity(intent);
             }
         });
@@ -85,13 +123,11 @@ public class ExerciseView extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        dbAdapter.open();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        dbAdapter.close();
     }
 
     @Override

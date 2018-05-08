@@ -15,6 +15,8 @@ public class CardInfo {
         this.reps = reps;
     }
 
+    public CardInfo() {}
+
     public int getName() {
         return id;
     }
