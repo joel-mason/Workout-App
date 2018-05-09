@@ -14,12 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.company.joeliomason.projectme.Adapters.AddCardioAdapter;
 import com.company.joeliomason.projectme.Adapters.AddExerciseAdapter;
 import com.company.joeliomason.projectme.Database.CardDatabaseAdapter2;
 import com.company.joeliomason.projectme.POJOs.Card;
@@ -53,15 +55,14 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
     TextView timer;
     ArrayList<Set> array = new ArrayList<>();
     MyCountDownTimer mMyCountDownTimer;
-    private AddExerciseAdapter mAddExerciseAdapter;
+    private ArrayAdapter mAddExerciseAdapter;
     Dialog dialog;
     long id;
+    private int CARDIO_CATEGORY = 7;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.edit_exercise_view, container, false);
-        setHasOptionsMenu(true);
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
             name = extras.getString("ExerciseName");
@@ -70,6 +71,14 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
             date = extras.getString("date");
             Log.v("date", date);
         }
+        if(category != CARDIO_CATEGORY)
+        {
+            rootView = inflater.inflate(R.layout.edit_exercise_view, container, false);
+        } else {
+            rootView = inflater.inflate(R.layout.edit_cardio_view, container, false);
+        }
+
+        setHasOptionsMenu(true);
         mCardDatabaseAdapter2 = new CardDatabaseAdapter2(getActivity());
 
         Log.v("created", "item created");
@@ -213,7 +222,13 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
                 Toast.makeText(getActivity(), "something" + pos, Toast.LENGTH_SHORT).show();
             }
         });
-        mAddExerciseAdapter = new AddExerciseAdapter(getActivity(), R.layout.row2, array);
+
+        if(category == CARDIO_CATEGORY) {
+            mAddExerciseAdapter = new AddCardioAdapter(getActivity(), R.layout.cardio_row2, array);
+        } else {
+            mAddExerciseAdapter = new AddExerciseAdapter(getActivity(), R.layout.row2, array);
+        }
+
         list.setAdapter(mAddExerciseAdapter);
 
         mAddExerciseAdapter.notifyDataSetChanged();
@@ -237,18 +252,20 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
         if (id == R.id.action_done) {
             Intent intent = new Intent(getActivity(), MainMenuActivity.class);
             if(!array.isEmpty()) {
-                mCardDatabaseAdapter2.insert(name, date);
-                for (Set s : array) {
-                    mCardDatabaseAdapter2.insert2(mCardDatabaseAdapter2.highestID(), name, s.getWeight(), s.getReps(), date, category);
-                }
                 FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
                 String userId = mFirebaseUser.getUid();
 
-                // pushing user to 'users' node using the userId
-                mDatabase.child(userId).child("data").setValue(array);
-                mCardDatabaseAdapter2.resetID();
+                // pushing user to 'data' node using the userId
+                String noSlashDate = "";
+                for(char curr : date.toCharArray()) {
+                    if(curr != '/') {
+                        noSlashDate+=curr;
+                    }
+                }
+                //mDatabase.child(userId).child("data").setValue(array);
+                mDatabase.child(userId).child(noSlashDate).push().setValue(array);
             }
             startActivity(intent);
         }

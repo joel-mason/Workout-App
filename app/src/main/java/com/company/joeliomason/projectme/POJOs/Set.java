@@ -22,6 +22,7 @@ public class Set implements Serializable{
         this.date = date;
         this.category = category;
     }
+    public Set(){}
 
     public long getId() {
         return id;

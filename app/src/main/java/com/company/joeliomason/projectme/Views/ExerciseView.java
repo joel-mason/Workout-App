@@ -106,11 +106,7 @@ public class ExerciseView extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> av, View view, int i, long l) {
                 Intent intent;
-                if(categoryId == 7) {
-                    intent = new Intent(ExerciseView.this, AddCardioActivity.class);
-                } else {
-                    intent = new Intent(ExerciseView.this, AddExerciseActivity.class);
-                }
+                intent = new Intent(ExerciseView.this, AddExerciseActivity.class);
                 intent.putExtra("ExerciseName", values.get(i));
                 intent.putExtra("ExerciseCategory", categoryId);
                 intent.putExtra("date", date);

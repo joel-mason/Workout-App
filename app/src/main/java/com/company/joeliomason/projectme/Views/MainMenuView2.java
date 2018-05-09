@@ -20,9 +20,15 @@ import android.widget.Toast;
 import com.company.joeliomason.projectme.Adapters.CardAdapter;
 import com.company.joeliomason.projectme.Database.CardDatabaseAdapter2;
 import com.company.joeliomason.projectme.POJOs.Card;
+import com.company.joeliomason.projectme.POJOs.Set;
 import com.company.joeliomason.projectme.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +52,7 @@ public class MainMenuView2 extends Fragment {
     String date;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private DatabaseReference mDatabase;
 
 
     @Override
@@ -53,14 +60,24 @@ public class MainMenuView2 extends Fragment {
         View rootView = inflater.inflate(R.layout.main_menu2, container, false);
         setHasOptionsMenu(true);
         date = this.getArguments().getString("date");
-        Log.v("date", date);
         mCardDatabaseAdapter2 = new CardDatabaseAdapter2(getActivity());
+        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        String strUid = mFirebaseUser.getUid();
 
-        Log.v("meh", mCardDatabaseAdapter2.getAllInfo2(date).toString());
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users/" + strUid);
+        /**
         cardPerDate = mCardDatabaseAdapter2.getAllInfo2(date);
         for(Card c : cardPerDate) {
             if(c.getDate().equals(date)) {
                 cards.add(c);
+            }
+        }
+         **/
+        String noSlashDate = "";
+        for(char curr : date.toCharArray()) {
+            if(curr != '/') {
+                noSlashDate+=curr;
             }
         }
         recList = (RecyclerView) rootView.findViewById(R.id.cardList);
@@ -69,10 +86,51 @@ public class MainMenuView2 extends Fragment {
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
-        ca = new CardAdapter(getActivity(), cards);
-        recList.setAdapter(ca);
-        ca.notifyDataSetChanged();
+
         //((MainMenuActivity) getActivity()).setDate(date);
+        if(mDatabase.child(noSlashDate) != null) {
+            mDatabase.child(noSlashDate).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    if(dataSnapshot.getChildrenCount() > 0) {
+                        Card temp = new Card(0, dataSnapshot.child("0/name").getValue().toString(), dataSnapshot.child("0/date").getValue().toString());
+                        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                            Set mSet = new Set();
+                            mSet.setId(0);
+                            mSet.setCategory(Integer.parseInt(ds.child("category").getValue().toString()));
+                            mSet.setDate(ds.child("date").getValue().toString());
+                            mSet.setName(ds.child("name").getValue().toString());
+                            mSet.setReps(Integer.parseInt(ds.child("reps").getValue().toString()));
+                            mSet.setWeight(Double.parseDouble(ds.child("weight").getValue().toString()));
+                            temp.addSet(mSet);
+                        }
+                        cards.add(temp);
+                        ca.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    //adapter.remove((String) dataSnapshot.child("title").getValue());
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +141,10 @@ public class MainMenuView2 extends Fragment {
                 startActivity(intent);
             }
         });
+
+        ca = new CardAdapter(getActivity(), cards);
+        recList.setAdapter(ca);
+        ca.notifyDataSetChanged();
 
         return rootView;
     }
