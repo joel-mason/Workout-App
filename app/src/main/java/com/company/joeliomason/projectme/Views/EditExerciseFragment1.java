@@ -14,20 +14,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.company.joeliomason.projectme.Adapters.EditCardioAdapter;
 import com.company.joeliomason.projectme.Adapters.EditExerciseAdapter;
 import com.company.joeliomason.projectme.Database.CardDatabaseAdapter2;
 import com.company.joeliomason.projectme.POJOs.Card;
 import com.company.joeliomason.projectme.POJOs.Exercise;
 import com.company.joeliomason.projectme.POJOs.Set;
 import com.company.joeliomason.projectme.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -51,30 +58,47 @@ public class EditExerciseFragment1  extends android.support.v4.app.Fragment {
     ArrayList<Set> array = new ArrayList<>();
     List<Set> foo;
     MyCountDownTimer mMyCountDownTimer;
-    private EditExerciseAdapter mAddExerciseAdapter;
+    private ArrayAdapter mAddExerciseAdapter;
     Dialog dialog;
     long id;
+    FirebaseAuth mFirebaseAuth;
+    FirebaseUser mFirebaseUser;
+    DatabaseReference mDatabase;
+    String userId;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.edit_exercise_view, container, false);
         setHasOptionsMenu(true);
         foo = new ArrayList<>();
 
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
             card = (Card) extras.getSerializable("Card");
-            Log.v("here", card.toString());
             foo = card.getSet();
-            for (Set temp : foo) {
-                array.add(temp);
-            }
+            array.addAll(foo);
             id = extras.getInt("id");
             name = card.getName();
+            date = card.getDate();
+        }
+        if(card.getSet().get(0).getCategory() == 7) {
+            rootView = inflater.inflate(R.layout.edit_cardio_view, container, false);
+        } else {
+            rootView = inflater.inflate(R.layout.edit_exercise_view, container, false);
         }
 
-        mCardDatabaseAdapter2 = new CardDatabaseAdapter2(getActivity());
+
+        String noSlashDate = "";
+        for(char curr : date.toCharArray()) {
+            if(curr != '/') {
+                noSlashDate+=curr;
+            }
+        }
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        userId = mFirebaseUser.getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference("users/" + userId + "/" + noSlashDate + "/" + card.getId());
+
 
 
         //mCardDatabaseAdapter2.insert(name, date);
@@ -165,9 +189,6 @@ public class EditExerciseFragment1  extends android.support.v4.app.Fragment {
                     int temp3 = Integer.parseInt(reps.getText().toString());
                     Set s = new Set(0, name, temp2, temp3, date, category);
                     array.add(s);
-                    mCardDatabaseAdapter2.insert2(card.getId(), s.getName(), s.getWeight(), s.getReps(), card.getDate(), s.getCategory());
-                    Log.v("inserted data", "id " + card.getId() + " name " + name + " weight " + s.getWeight() + " reps " + s.getReps() + " date " + date);
-                    //Log.v("id", mCardDatabaseAdapter2.highestID() + "");
                     mAddExerciseAdapter.notifyDataSetChanged();
                     count++;
                 }
@@ -192,7 +213,6 @@ public class EditExerciseFragment1  extends android.support.v4.app.Fragment {
                 update.setVisibility(View.VISIBLE);
                 edit.setVisibility(View.GONE);
                 delete.setVisibility(View.GONE);
-                mCardDatabaseAdapter2.deleteEntry(String.valueOf(array.get(pos).getId()));
                 Log.v(String.valueOf(id), array.get(pos).getName() + String.valueOf(array.get(pos).getWeight()) + String.valueOf(array.get(pos).getReps()));
                 array.remove(pos);
                 mAddExerciseAdapter.notifyDataSetChanged();
@@ -211,7 +231,12 @@ public class EditExerciseFragment1  extends android.support.v4.app.Fragment {
                 Toast.makeText(getActivity(), "something" + pos, Toast.LENGTH_SHORT).show();
             }
         });
-        mAddExerciseAdapter = new EditExerciseAdapter(getActivity(), R.layout.row2, array);
+        if(card.getSet().get(0).getCategory() == 7) {
+            mAddExerciseAdapter = new EditCardioAdapter(getActivity(), R.layout.cardio_row2, array);
+        } else {
+            mAddExerciseAdapter = new EditExerciseAdapter(getActivity(), R.layout.row2, array);
+        }
+
         list.setAdapter(mAddExerciseAdapter);
 
         mAddExerciseAdapter.notifyDataSetChanged();
@@ -233,8 +258,15 @@ public class EditExerciseFragment1  extends android.support.v4.app.Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_done) {
+            if(!array.isEmpty()) {
+                mDatabase.setValue(array);
+            } else {
+                mDatabase.removeValue();
+            }
             Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-                mCardDatabaseAdapter2.resetID();
+            intent.putExtra("date", date);
+            getActivity().finish();
+
             startActivity(intent);
         }
         if(id == R.id.action_timer) {

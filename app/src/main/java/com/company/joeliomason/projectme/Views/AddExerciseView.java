@@ -62,7 +62,7 @@ public class AddExerciseView extends AppCompatActivity {
         }
         mCardDatabaseAdapter2 = new CardDatabaseAdapter2(this);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        card = new Card(0, name, date);
+        card = new Card("", name, date);
         ActionBar actionBar = AddExerciseView.this.getSupportActionBar();
 
         if (actionBar != null) {
@@ -193,7 +193,7 @@ public class AddExerciseView extends AppCompatActivity {
             Intent intent = new Intent(AddExerciseView.this, MainMenuView2.class);
             mCardDatabaseAdapter2.insert(name, date);
             for(Set s : array) {
-                mCardDatabaseAdapter2.insert2(mCardDatabaseAdapter2.highestID(), name, s.getWeight(), s.getReps(), date, category);
+                mCardDatabaseAdapter2.insert2(Long.toString(mCardDatabaseAdapter2.highestID()), name, s.getWeight(), s.getReps(), date, category);
             }
             FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
             FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -206,7 +206,7 @@ public class AddExerciseView extends AppCompatActivity {
 
 
             mCardDatabaseAdapter2.resetID();
-            startActivity(intent);
+            startActivityForResult(intent, 1);
         }
         return super.onOptionsItemSelected(item);
     }

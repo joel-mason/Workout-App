@@ -23,6 +23,11 @@
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation"
             android:label="Splashscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Views.RestTimeView"
@@ -37,11 +42,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="Login"
             android:parentActivityName=".Views.SplashScreenView" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Views.CategoryListView"
@@ -51,7 +52,7 @@
             android:parentActivityName=".Views.MainMenuActivity" >
         </activity>
         <activity
-            android:name=".Views.CalendarView"
+            android:name=".Views.CalendarActivityView"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation"
             android:label="Calendar"
@@ -132,6 +133,13 @@
         </activity>
         <activity
             android:name=".Views.MainMenuActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="Project Me">
+
+        </activity>
+        <activity
+            android:name=".Views.LoginEmailView"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation"
             android:label="Project Me">

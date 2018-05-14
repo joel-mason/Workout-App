@@ -3,12 +3,10 @@ package com.company.joeliomason.projectme.Views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.company.joeliomason.projectme.Adapters.CardAdapter;
-import com.company.joeliomason.projectme.Database.CardDatabaseAdapter2;
 import com.company.joeliomason.projectme.POJOs.Card;
 import com.company.joeliomason.projectme.POJOs.Set;
 import com.company.joeliomason.projectme.R;
@@ -40,19 +37,14 @@ import java.util.List;
 
 public class MainMenuView2 extends Fragment {
 
-    CardDatabaseAdapter2 mCardDatabaseAdapter2;
-
     List<Card> cards = new ArrayList<>();
-    List<Card> cardPerDate = new ArrayList<>();
-    //ArrayList<Set> selected = new ArrayList<>();
     RecyclerView recList;
     CardAdapter ca;
     LinearLayoutManager llm;
     CardView cd;
     String date;
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
-    private DatabaseReference mDatabase;
+    FirebaseAuth mFirebaseAuth;
+    FirebaseUser mFirebaseUser;
 
 
     @Override
@@ -60,9 +52,8 @@ public class MainMenuView2 extends Fragment {
         View rootView = inflater.inflate(R.layout.main_menu2, container, false);
         setHasOptionsMenu(true);
         date = this.getArguments().getString("date");
-        mCardDatabaseAdapter2 = new CardDatabaseAdapter2(getActivity());
-        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
         String strUid = mFirebaseUser.getUid();
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users/" + strUid);
@@ -93,7 +84,7 @@ public class MainMenuView2 extends Fragment {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     if(dataSnapshot.getChildrenCount() > 0) {
-                        Card temp = new Card(0, dataSnapshot.child("0/name").getValue().toString(), dataSnapshot.child("0/date").getValue().toString());
+                        Card temp = new Card(dataSnapshot.getKey().toString(), dataSnapshot.child("0/name").getValue().toString(), dataSnapshot.child("0/date").getValue().toString());
                         for(DataSnapshot ds : dataSnapshot.getChildren()) {
                             Set mSet = new Set();
                             mSet.setId(0);
@@ -111,22 +102,22 @@ public class MainMenuView2 extends Fragment {
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                    ca.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    //adapter.remove((String) dataSnapshot.child("title").getValue());
+                    ca.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                    ca.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
+                    ca.notifyDataSetChanged();
                 }
             });
         }
@@ -169,12 +160,19 @@ public class MainMenuView2 extends Fragment {
         }
 
         if(id == R.id.action_cal) {
-            Intent intent = new Intent(getActivity(), CalendarView.class);
+            Intent intent = new Intent(getActivity(), CalendarActivityView.class);
             startActivity(intent);
         }
 
         if(id == R.id.action_copy) {
             Toast.makeText(getActivity(), "Copy has been clicked", Toast.LENGTH_SHORT).show();
+        }
+
+        if(id == R.id.action_logout) {
+            mFirebaseAuth.signOut();
+            getActivity().finish();
+            Intent intent = new Intent(getActivity(), SplashScreenView.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

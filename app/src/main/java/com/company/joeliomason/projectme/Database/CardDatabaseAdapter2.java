@@ -55,7 +55,7 @@ public class CardDatabaseAdapter2 {
         close();
     }
 
-    public void insert2(long id, String name, double weight, int reps, String date, int category) {
+    public void insert2(String id, String name, double weight, int reps, String date, int category) {
         Log.v("id", id + "");
         open();
         database.beginTransaction();
@@ -87,7 +87,7 @@ public class CardDatabaseAdapter2 {
         for(int i = 0; i < cursor.getCount(); i++){
             String foo = cursor.getString(1);
             //Log.v("foo", foo);
-            Card card = new Card(cursor.getLong(0), foo, cursor.getString(2));
+            Card card = new Card(cursor.getString(0), foo, cursor.getString(2));
             ls = getValuesDates(cursor.getLong(0), date);
             //Log.v("values of ls", ls.toString());
             if (!ls.isEmpty()) {

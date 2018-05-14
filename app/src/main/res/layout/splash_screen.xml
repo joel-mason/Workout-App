@@ -4,42 +4,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#4CAF50"
+    android:background="@color/primary_dark"
     android:id="@+id/relativeLayout">
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="projectMe"
-        android:id="@+id/textView2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="50dp"
-        android:textColor="#AAFFFFFF"
-        />
+        android:text="Exercise Tracker"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="40dp" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"
         android:id="@+id/signup_button"
-        android:width="400dp"
         style="@style/rounded_but"
-        android:layout_alignBottom="@+id/login_button"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="77dp"
-        android:textStyle="bold"
-        />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/login_button"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="91dp"
         android:width="400dp"
-        android:layout_marginTop="475dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        style="@style/rounded_but"/>
+        android:text="Sign Up" />
+
+    <Button
+        android:id="@+id/login_button"
+        style="@style/rounded_but"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="166dp"
+        android:width="400dp"
+        android:text="Login" />
+
+    <TextView
+        android:id="@+id/textView38"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="221dp"
+        android:text="or"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"/>
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/login_google"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="168dp"
+        android:visibility="visible" />
+    
+
 </RelativeLayout>

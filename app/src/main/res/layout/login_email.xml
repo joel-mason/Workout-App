@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/linear_layout"
+    android:background="@color/primary">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Let&apos;s get you logged in"
+        android:id="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"
+        android:singleLine="false"
+        android:textColor="#FFFFFF"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:id="@+id/linear_layout0">
+
+        <TextView
+            android:layout_width="120dp"
+            android:text="Email"
+            android:layout_marginTop="10dp"
+            android:textColor="#66FFFFFF"
+            style="@style/rounded_text"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:inputType="textEmailAddress"
+            android:id="@+id/emailAddress"
+            android:layout_marginTop="10dp"
+            style="@style/rounded_text"
+            android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linear_layout1">
+
+        <TextView
+            android:layout_width="120dp"
+            android:text="Password"
+            android:layout_marginTop="2dp"
+            android:textColor="#66FFFFFF"
+            style="@style/rounded_text"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:inputType="textPassword"
+            android:id="@+id/passwordText"
+            android:layout_marginTop="2dp"
+            style="@style/rounded_text"
+            android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+    <Button
+        style="@style/rounded_but"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/login_button"
+        android:width="400dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+
+</LinearLayout>

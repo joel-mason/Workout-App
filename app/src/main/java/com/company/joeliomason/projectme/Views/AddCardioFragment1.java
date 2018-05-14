@@ -71,7 +71,7 @@ public class AddCardioFragment1 extends android.support.v4.app.Fragment {
         Log.v("created", "item created");
 
         //mCardDatabaseAdapter2.insert(name, date);
-        card = new Card(0, name, date);
+        card = new Card("", name, date);
         Log.v("name & date", name + "  " + date);
 
         ex = new Exercise(name, type, category);
@@ -235,7 +235,7 @@ public class AddCardioFragment1 extends android.support.v4.app.Fragment {
             if(!array.isEmpty()) {
                 mCardDatabaseAdapter2.insert(name, date);
                 for (Set s : array) {
-                    mCardDatabaseAdapter2.insert2(mCardDatabaseAdapter2.highestID(), name, s.getWeight(), s.getReps(), date, category);
+                    mCardDatabaseAdapter2.insert2(Long.toString(mCardDatabaseAdapter2.highestID()), name, s.getWeight(), s.getReps(), date, category);
                 }
                 mCardDatabaseAdapter2.resetID();
             }

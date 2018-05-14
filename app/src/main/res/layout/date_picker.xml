@@ -9,5 +9,6 @@
         android:id="@+id/calendarView"
         android:layout_gravity="center_horizontal"
         android:showWeekNumber="false"
-        android:clickable="true" />
+        android:clickable="true"
+        android:focusable="true"/>
 </LinearLayout>

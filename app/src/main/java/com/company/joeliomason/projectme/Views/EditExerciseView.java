@@ -42,7 +42,7 @@ public class EditExerciseView extends AppCompatActivity {
     ArrayList<Set> array = new ArrayList<>();
     List<Set> foo;
     private EditExerciseAdapter mAddExerciseAdapter;
-    long id;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,7 +197,6 @@ public class EditExerciseView extends AppCompatActivity {
                 Toast.makeText(view.getContext(), "something" + pos, Toast.LENGTH_SHORT).show();
             }
         });
-
         mAddExerciseAdapter = new EditExerciseAdapter(getApplicationContext(), R.layout.row2, array);
         list.setAdapter(mAddExerciseAdapter);
     }

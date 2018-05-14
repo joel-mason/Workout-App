@@ -30,6 +30,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
@@ -75,6 +82,11 @@ public class MainMenuActivity extends AppCompatActivity implements
             return;
         } else {
             mUsername = mFirebaseUser.getDisplayName();
+        }
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            date = extras.getString("date");
         }
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -176,13 +188,22 @@ public class MainMenuActivity extends AppCompatActivity implements
         @Override
         public CharSequence getPageTitle(int position) {
             DateTime pagerdate = DateTime.now(TimeZone.getDefault());
+            if(date != null) {
+                int day = Integer.parseInt(date.substring(0, 2));
+                int month = Integer.parseInt(date.substring(3, 5));
+                int year = Integer.parseInt(date.substring(6));
+                pagerdate = new DateTime(year, month, day, 0, 0, 0, 0);
+            }
+            DateTime today = DateTime.now(TimeZone.getDefault());
+            DateTime yesterday = today.minusDays(1);
+            DateTime tomorrow = today.plusDays(1);
             DateTime days = pagerdate.plusDays(position - 5000);
             String date = days.format("DD/MM/YYYY").toString();
-            if(days.isSameDayAs(DateTime.now(TimeZone.getDefault()))) {
+            if(days.isSameDayAs(today)){
                 date = "Today";
-            } else if(days.isSameDayAs(pagerdate.minusDays(1))) {
+            } else if(days.isSameDayAs(yesterday)) {
                 date = "Yesterday";
-            } else if(days.isSameDayAs(pagerdate.plusDays(1))){
+            } else if(days.isSameDayAs(tomorrow)){
                 date = "Tomorrow";
             }
             return date;
@@ -191,8 +212,13 @@ public class MainMenuActivity extends AppCompatActivity implements
         @Override
         public Fragment getItem(int position) {
 
-
             DateTime pagerdate = DateTime.now(TimeZone.getDefault());
+            if(date != null) {
+                int day = Integer.parseInt(date.substring(0, 2));
+                int month = Integer.parseInt(date.substring(3, 5));
+                int year = Integer.parseInt(date.substring(6));
+                pagerdate = new DateTime(year, month, day, 0, 0, 0, 0);
+            }
             DateTime days = pagerdate.plusDays(position - 5000);
 
             Bundle bundle = new Bundle();
@@ -208,6 +234,11 @@ public class MainMenuActivity extends AppCompatActivity implements
 
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        //do nothing
     }
 
 }

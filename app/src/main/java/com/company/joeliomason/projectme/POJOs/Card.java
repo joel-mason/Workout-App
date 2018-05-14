@@ -8,12 +8,12 @@ import java.util.List;
  * Created by joelmason on 09/04/2015.
  */
 public class Card implements Serializable{
-    public long id;
+    public String id;
     public String name;
     public String date;
     List<Set> sets;
 
-    public Card(long id, String name, String date) {
+    public Card(String id, String name, String date) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -42,11 +42,11 @@ public class Card implements Serializable{
         sets = s;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -20,6 +20,10 @@ import com.company.joeliomason.projectme.POJOs.Set;
 import com.company.joeliomason.projectme.R;
 import com.company.joeliomason.projectme.Views.EditCardioActivity;
 import com.company.joeliomason.projectme.Views.EditExerciseActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -30,13 +34,30 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
 
     private List<Card> cards;
     private Context mContext;
-    private static CardDatabaseAdapter2 mCardDatabaseAdapter2;
     private ColorWheel mColorWheel = new ColorWheel();
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private DatabaseReference mDatabase;
+    private String userId;
+    private String noSlashDate;
+
 
     public CardAdapter(Context context, List<Card> cards) {
         mContext = context;
         this.cards = cards;
-        mCardDatabaseAdapter2 = new CardDatabaseAdapter2(context);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        userId = mFirebaseUser.getUid();
+    }
+
+    private String getNoSlashDate(String date) {
+        String ret = "";
+        for(char curr : date.toCharArray()) {
+            if(curr != '/') {
+                ret+=curr;
+            }
+        }
+        return ret;
     }
 
 
@@ -51,6 +72,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
     public void onBindViewHolder(GeneralViewHolder viewHolder1, int i) {
         Card card = cards.get(i);
         List<Set> sets = card.getSet();
+        noSlashDate = getNoSlashDate(card.getDate());
+        mDatabase = FirebaseDatabase.getInstance().getReference("users/" + userId + "/" + noSlashDate + "/" + card.getId());
         int count = 0;
         switch(viewHolder1.getItemViewType()) {
             case 1:
@@ -437,7 +460,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
         protected TextView vShowMore;
         protected Card card;
         protected int id;
-        protected long id2;
+        protected String id2;
         protected int category;
         protected RelativeLayout rl;
 
@@ -475,7 +498,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                     builder.setItems(items, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             if (item == 0) {
-                                mCardDatabaseAdapter2.deleteCard(String.valueOf(id2));
+                                mDatabase.removeValue();
                                 cards.remove(item);
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "Card Deleted", Toast.LENGTH_SHORT).show();
@@ -506,7 +529,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
         protected TextView vShowMore;
         protected Card card;
         protected int id;
-        protected long id2;
+        protected String id2;
         protected int category;
         protected RelativeLayout rl;
 
@@ -546,7 +569,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                     builder.setItems(items, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             if (item == 0) {
-                                mCardDatabaseAdapter2.deleteCard(String.valueOf(id2));
+                                mDatabase.removeValue();
                                 cards.remove(item);
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "Card Deleted", Toast.LENGTH_SHORT).show();
@@ -579,7 +602,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
         protected TextView vShowMore;
         protected Card card;
         protected int id;
-        protected long id2;
+        protected String id2;
         protected int category;
         protected RelativeLayout rl;
 
@@ -623,7 +646,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                     builder.setItems(items, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             if (item == 0) {
-                                mCardDatabaseAdapter2.deleteCard(String.valueOf(id2));
+                                mDatabase.removeValue();
                                 cards.remove(item);
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "Card Deleted", Toast.LENGTH_SHORT).show();
@@ -657,7 +680,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
         protected TextView vShowMore;
         protected Card card;
         protected int id;
-        protected long id2;
+        protected String id2;
         protected int category;
         protected RelativeLayout rl;
 
@@ -704,7 +727,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                     builder.setItems(items, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             if (item == 0) {
-                                mCardDatabaseAdapter2.deleteCard(String.valueOf(id2));
+                                mDatabase.removeValue();
                                 cards.remove(item);
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "Card Deleted", Toast.LENGTH_SHORT).show();
@@ -740,7 +763,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
         protected TextView vShowMore;
         protected Card card;
         protected int id;
-        protected long id2;
+        protected String id2;
         protected int category;
         protected RelativeLayout rl;
 
@@ -789,7 +812,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                     builder.setItems(items, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             if (item == 0) {
-                                mCardDatabaseAdapter2.deleteCard(String.valueOf(id2));
+                                mDatabase.removeValue();
                                 cards.remove(item);
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "Card Deleted", Toast.LENGTH_SHORT).show();
@@ -818,7 +841,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
         protected TextView vShowMore;
         protected Card card;
         protected int id;
-        protected long id2;
+        protected String id2;
         protected int category;
         protected RelativeLayout rl;
 
@@ -840,7 +863,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                 @Override
                 public void onClick(View v) {
                     Log.v("item clicked", vName.getText().toString());
-                    Intent intent = new Intent(mContext.getApplicationContext(), EditCardioActivity.class);
+                    Intent intent = new Intent(mContext.getApplicationContext(), EditExerciseActivity.class);
                     intent.putExtra("Card", card);
                     intent.putExtra("id", id);
                     mContext.startActivity(intent);
@@ -856,7 +879,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                     builder.setItems(items, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             if (item == 0) {
-                                mCardDatabaseAdapter2.deleteCard(String.valueOf(id2));
+                                mDatabase.removeValue();
                                 cards.remove(item);
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "Card Deleted", Toast.LENGTH_SHORT).show();
@@ -887,7 +910,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
         protected TextView vShowMore;
         protected Card card;
         protected int id;
-        protected long id2;
+        protected String id2;
         protected int category;
         protected RelativeLayout rl;
 
@@ -911,7 +934,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                 @Override
                 public void onClick(View v) {
                     Log.v("item clicked", vName.getText().toString());
-                    Intent intent = new Intent(mContext.getApplicationContext(), EditCardioActivity.class);
+                    Intent intent = new Intent(mContext.getApplicationContext(), EditExerciseActivity.class);
                     intent.putExtra("Card", card);
                     intent.putExtra("id", id);
                     mContext.startActivity(intent);
@@ -927,7 +950,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                     builder.setItems(items, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             if (item == 0) {
-                                mCardDatabaseAdapter2.deleteCard(String.valueOf(id2));
+                                mDatabase.removeValue();
                                 cards.remove(item);
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "Card Deleted", Toast.LENGTH_SHORT).show();
@@ -960,7 +983,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
         protected TextView vShowMore;
         protected Card card;
         protected int id;
-        protected long id2;
+        protected String id2;
         protected int category;
         protected RelativeLayout rl;
 
@@ -988,7 +1011,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                 @Override
                 public void onClick(View v) {
                     Log.v("item clicked", vName.getText().toString());
-                    Intent intent = new Intent(mContext.getApplicationContext(), EditCardioActivity.class);
+                    Intent intent = new Intent(mContext.getApplicationContext(), EditExerciseActivity.class);
                     intent.putExtra("Card", card);
                     intent.putExtra("id", id);
                     mContext.startActivity(intent);
@@ -1004,7 +1027,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                     builder.setItems(items, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             if (item == 0) {
-                                mCardDatabaseAdapter2.deleteCard(String.valueOf(id2));
+                                mDatabase.removeValue();
                                 cards.remove(item);
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "Card Deleted", Toast.LENGTH_SHORT).show();
@@ -1038,7 +1061,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
         protected TextView vShowMore;
         protected Card card;
         protected int id;
-        protected long id2;
+        protected String id2;
         protected int category;
         protected RelativeLayout rl;
 
@@ -1069,7 +1092,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                 @Override
                 public void onClick(View v) {
                     Log.v("item clicked", vName.getText().toString());
-                    Intent intent = new Intent(mContext.getApplicationContext(), EditCardioActivity.class);
+                    Intent intent = new Intent(mContext.getApplicationContext(), EditExerciseActivity.class);
                     intent.putExtra("Card", card);
                     intent.putExtra("id", id);
                     mContext.startActivity(intent);
@@ -1085,7 +1108,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                     builder.setItems(items, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             if (item == 0) {
-                                mCardDatabaseAdapter2.deleteCard(String.valueOf(id2));
+                                mDatabase.removeValue();
                                 cards.remove(item);
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "Card Deleted", Toast.LENGTH_SHORT).show();
@@ -1121,7 +1144,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
         protected TextView vShowMore;
         protected Card card;
         protected int id;
-        protected long id2;
+        protected String id2;
         protected int category;
         protected RelativeLayout rl;
 
@@ -1154,7 +1177,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                 @Override
                 public void onClick(View v) {
                     Log.v("item clicked", vName.getText().toString());
-                    Intent intent = new Intent(mContext.getApplicationContext(), EditCardioActivity.class);
+                    Intent intent = new Intent(mContext.getApplicationContext(), EditExerciseActivity.class);
                     intent.putExtra("Card", card);
                     intent.putExtra("id", id);
                     mContext.startActivity(intent);
@@ -1170,7 +1193,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GeneralViewHol
                     builder.setItems(items, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             if (item == 0) {
-                                mCardDatabaseAdapter2.deleteCard(String.valueOf(id2));
+                                mDatabase.removeValue();
                                 cards.remove(item);
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "Card Deleted", Toast.LENGTH_SHORT).show();

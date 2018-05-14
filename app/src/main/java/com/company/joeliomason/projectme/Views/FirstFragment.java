@@ -40,7 +40,6 @@ import java.util.ArrayList;
  */
 public class FirstFragment  extends android.support.v4.app.Fragment {
 
-    CardDatabaseAdapter2 mCardDatabaseAdapter2;
     TextView workoutName;
     EditText weight, reps;
     double weightCount;
@@ -59,6 +58,10 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
     Dialog dialog;
     long id;
     private int CARDIO_CATEGORY = 7;
+    FirebaseAuth mFirebaseAuth;
+    FirebaseUser mFirebaseUser;
+    DatabaseReference mDatabase;
+    String userId;
 
 
     @Override
@@ -78,13 +81,17 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
             rootView = inflater.inflate(R.layout.edit_cardio_view, container, false);
         }
 
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        userId = mFirebaseUser.getUid();
+
         setHasOptionsMenu(true);
-        mCardDatabaseAdapter2 = new CardDatabaseAdapter2(getActivity());
 
         Log.v("created", "item created");
 
         //mCardDatabaseAdapter2.insert(name, date);
-        card = new Card(0, name, date);
+        card = new Card("", name, date);
         Log.v("name & date", name + "  " + date);
 
         ex = new Exercise(name, type, category);
@@ -203,7 +210,6 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
                 update.setVisibility(View.VISIBLE);
                 edit.setVisibility(View.GONE);
                 delete.setVisibility(View.GONE);
-                mCardDatabaseAdapter2.deleteEntry(String.valueOf(array.get(pos).getId()));
                 Log.v(String.valueOf(id), array.get(pos).getName() + String.valueOf(array.get(pos).getWeight()) + String.valueOf(array.get(pos).getReps()));
                 array.remove(pos);
                 mAddExerciseAdapter.notifyDataSetChanged();
@@ -251,11 +257,9 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
 
         if (id == R.id.action_done) {
             Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+            intent.putExtra("date", date);
             if(!array.isEmpty()) {
-                FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-                FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
-                String userId = mFirebaseUser.getUid();
+
 
                 // pushing user to 'data' node using the userId
                 String noSlashDate = "";
@@ -264,9 +268,9 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
                         noSlashDate+=curr;
                     }
                 }
-                //mDatabase.child(userId).child("data").setValue(array);
                 mDatabase.child(userId).child(noSlashDate).push().setValue(array);
             }
+            getActivity().finish();
             startActivity(intent);
         }
         if(id == R.id.action_timer) {
