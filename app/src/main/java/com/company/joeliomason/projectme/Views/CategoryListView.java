@@ -92,7 +92,6 @@ public class CategoryListView extends AppCompatActivity {
                 intent.putExtra("WorkoutName", adapter.getItem(i));
                 intent.putExtra("date", date);
                 Log.d("Got:", String.valueOf(i+1));
-                finish();
                 startActivity(intent);
             }
         });

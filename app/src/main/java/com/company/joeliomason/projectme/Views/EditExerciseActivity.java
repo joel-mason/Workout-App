@@ -108,6 +108,11 @@ public class EditExerciseActivity extends AppCompatActivity implements ActionBar
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+    public void changeTab(int tabNo)
+    {
+        mViewPager.setCurrentItem(tabNo); // Change to page 1, i.e., FragmentB
+    }
+
 
 
 
@@ -163,6 +168,6 @@ public class EditExerciseActivity extends AppCompatActivity implements ActionBar
     }
 
     public void setSets(ArrayList<Set> sets) {
-        this.sets = sets;
+        fragmentFirst.array.addAll(sets);
     }
 }

@@ -8,6 +8,9 @@
     <string name="action_copy">Copy</string>
     <string name="title_activity_main_menu_tabbed">MainMenuTabbed</string>
 
+    <string name="facebook_app_id">417385012058865</string>
+    <string name="fb_login_protocol_scheme">fb417385012058865</string>
+
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>

@@ -71,7 +71,6 @@ public class MainMenuActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu_setup);
-
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
@@ -87,6 +86,27 @@ public class MainMenuActivity extends AppCompatActivity implements
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             date = extras.getString("date");
+        }
+        if(date == null) {
+            DateTime today = DateTime.now(TimeZone.getDefault());
+            int day = today.getDay();
+            int month = today.getMonth();
+            int year = today.getYear();
+            if(day < 10) {
+                date ="0" + day + "/";
+            } else {
+                date = day + "/";
+            }
+            if(month < 10) {
+                date+="0" + month + "/";
+            } else {
+                date += month + "/";
+            }
+            if(year < 10) {
+                date+="00" + year;
+            } else {
+                date += year + "";
+            }
         }
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -144,6 +164,16 @@ public class MainMenuActivity extends AppCompatActivity implements
         });
         mViewPager.getAdapter().notifyDataSetChanged();
         mViewPager.setOffscreenPageLimit(1);
+
+        FloatingActionButton fab = (FloatingActionButton) this.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, CategoryListView.class);
+                intent.putExtra("date", date);
+                startActivity(intent);
+            }
+        });
 
 
 

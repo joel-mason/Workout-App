@@ -56,7 +56,7 @@ public class MainMenuView2 extends Fragment {
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         String strUid = mFirebaseUser.getUid();
 
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users/" + strUid);
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users/" + strUid + "/cards/");
         /**
         cardPerDate = mCardDatabaseAdapter2.getAllInfo2(date);
         for(Card c : cardPerDate) {
@@ -122,7 +122,7 @@ public class MainMenuView2 extends Fragment {
             });
         }
 
-
+        /**
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +132,7 @@ public class MainMenuView2 extends Fragment {
                 startActivity(intent);
             }
         });
+         **/
 
         ca = new CardAdapter(getActivity(), cards);
         recList.setAdapter(ca);

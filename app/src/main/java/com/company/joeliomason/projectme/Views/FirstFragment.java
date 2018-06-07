@@ -1,6 +1,7 @@
 package com.company.joeliomason.projectme.Views;
 
 import android.app.Dialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -183,9 +184,6 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
                     int temp3 = Integer.parseInt(reps.getText().toString());
                     Set s = new Set(0, name, temp2, temp3, date, category);
                     array.add(s);
-                    //mCardDatabaseAdapter2.insert2(mCardDatabaseAdapter2.highestID(), name, s.getWeight(), s.getReps(), date);
-                    //Log.v("inserted data", "id " + mCardDatabaseAdapter2.highestID() + " name " + name + " weight " + s.getWeight() + " reps " + s.getReps() + " date " + date);
-                    //Log.v("id", mCardDatabaseAdapter2.highestID() + "");
                     mAddExerciseAdapter.notifyDataSetChanged();
                     count++;
                 }
@@ -225,7 +223,6 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
                 edit.setVisibility(View.VISIBLE);
                 delete.setVisibility(View.VISIBLE);
                 pos = position;
-                Toast.makeText(getActivity(), "something" + pos, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -268,7 +265,8 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
                         noSlashDate+=curr;
                     }
                 }
-                mDatabase.child(userId).child(noSlashDate).push().setValue(array);
+                mDatabase.child(userId).child("cards").child(noSlashDate).push().setValue(array);
+                mDatabase.child(userId).child("history").child(card.getName()).push().setValue(array);
             }
             getActivity().finish();
             startActivity(intent);

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.company.joeliomason.projectme.POJOs.Set;
 import com.company.joeliomason.projectme.R;
@@ -106,6 +107,12 @@ public class AddExerciseActivity extends AppCompatActivity implements ActionBar.
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+    public void changeTab(int tabNo)
+    {
+        mViewPager.setCurrentItem(tabNo); // Change to page 1, i.e., FragmentB
+    }
+
+
 
 
 
@@ -161,6 +168,6 @@ public class AddExerciseActivity extends AppCompatActivity implements ActionBar.
     }
 
     public void setSets(ArrayList<Set> sets) {
-        this.sets = sets;
+        fragmentFirst.array.addAll(sets);
     }
 }

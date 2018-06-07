@@ -1,6 +1,7 @@
 package com.company.joeliomason.projectme.Views;
 
 import android.app.Dialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -97,7 +98,7 @@ public class EditExerciseFragment1  extends android.support.v4.app.Fragment {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         userId = mFirebaseUser.getUid();
-        mDatabase = FirebaseDatabase.getInstance().getReference("users/" + userId + "/" + noSlashDate + "/" + card.getId());
+        mDatabase = FirebaseDatabase.getInstance().getReference("users/" + userId + "/" + "cards/" + noSlashDate + "/" + card.getId());
 
 
 
@@ -321,7 +322,6 @@ public class EditExerciseFragment1  extends android.support.v4.app.Fragment {
         for(Set p: x) {
             p.setDate(date);
             array.add(p);
-            mCardDatabaseAdapter2.insert2(card.getId(), p.getName(), p.getWeight(), p.getReps(), card.getDate(), p.getCategory());
         }
         mAddExerciseAdapter.notifyDataSetChanged();
     }

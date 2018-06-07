@@ -9,27 +9,31 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Weight (kgs)"
-        android:id="@+id/textView43" />
+        android:id="@+id/textView43"
+        android:textColor="#FFFFFF"/>
 
     <TextView
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="1000"
-        android:id="@+id/rowWeight" />
+        android:id="@+id/rowWeight"
+        android:textColor="#FFFFFF"/>
 
     <TextView
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Reps"
-        android:id="@+id/textView44" />
+        android:id="@+id/textView44"
+        android:textColor="#FFFFFF"/>
 
     <TextView
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="999"
-        android:id="@+id/rowReps" />
+        android:id="@+id/rowReps"
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>

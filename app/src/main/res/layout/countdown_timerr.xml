@@ -4,7 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/layouttimer"
-    android:paddingBottom="5dp">
+    android:paddingBottom="5dp"
+    android:background="@color/primary_dark">
 
 
     <EditText
@@ -21,20 +22,20 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="start timer"
+        android:text="start"
         android:id="@+id/start"
         android:textSize="30dp"
-        android:background="#4CAF50"
+        style="@style/rounded_but"
         android:layout_below="@+id/timer"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="stop timer"
+        android:text="stop"
         android:id="@+id/stop"
         android:textSize="30dp"
-        android:background="#FF9800"
+        style="@style/rounded_but"
         android:layout_below="@+id/timer"
         android:layout_centerHorizontal="true" />
 
@@ -43,9 +44,46 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Enter Seconds"
+        android:textColor="#FFFFFF"
         android:id="@+id/textView33"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="30dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="30"
+        android:id="@+id/thirty"
+        android:textSize="30dp"
+        style="@style/rounded_but"
+        android:layout_below="@+id/stop"
+        android:layout_toLeftOf="@+id/sixty"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="60"
+        android:id="@+id/sixty"
+        android:textSize="30dp"
+        style="@style/rounded_but"
+        android:layout_below="@+id/stop"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="90"
+        android:id="@+id/ninety"
+        android:textSize="30dp"
+        style="@style/rounded_but"
+        android:layout_below="@+id/stop"
+        android:layout_toRightOf="@+id/sixty"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

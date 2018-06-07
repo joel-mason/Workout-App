@@ -110,7 +110,6 @@ public class ExerciseView extends AppCompatActivity {
                 intent.putExtra("ExerciseName", values.get(i));
                 intent.putExtra("ExerciseCategory", categoryId);
                 intent.putExtra("date", date);
-                finish();
                 startActivity(intent);
             }
         });

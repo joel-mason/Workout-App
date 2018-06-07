@@ -1,5 +1,7 @@
 package com.company.joeliomason.projectme.Adapters;
 
+import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.company.joeliomason.projectme.Views.EditExerciseFragment1;

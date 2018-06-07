@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:id="@+id/layout"
-    android:background="#DDDDDD"
+    android:background="@color/primary_dark"
     android:padding="20dp"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true" >
@@ -25,6 +25,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.10"
         android:textSize="23sp"
+        android:textColor="#FFFFFF"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/plus"
@@ -35,7 +36,7 @@
         android:layout_height="40dp"
         android:id="@+id/minus"
         android:text="-"
-        android:background="#BBFF3000"
+        style="@style/rounded_but"
         android:layout_below="@+id/name"
         android:layout_alignParentLeft="true"
         android:layout_toStartOf="@+id/textWeight">
@@ -46,7 +47,7 @@
         android:layout_height="40dp"
         android:id="@+id/plus"
         android:text="+"
-        android:background="#4CAF50"
+        style="@style/rounded_but"
         android:layout_below="@+id/name"
         android:layout_alignRight="@+id/rowReps"
         android:layout_toEndOf="@+id/textWeight" />
@@ -56,7 +57,7 @@
         android:layout_height="40dp"
         android:id="@+id/minus2"
         android:text="-"
-        android:background="#BBFF3000"
+        style="@style/rounded_but"
         android:layout_below="@+id/minus"
         android:layout_alignParentStart="true"
         android:layout_marginTop="39dp"
@@ -68,7 +69,7 @@
         android:layout_height="40dp"
         android:id="@+id/plus2"
         android:text="+"
-        android:background="#4CAF50"
+        style="@style/rounded_but"
         android:clickable="true"
         android:layout_alignTop="@+id/minus2"
         android:layout_alignStart="@+id/plus"
@@ -89,6 +90,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Reps"
+        android:textColor="#FFFFFF"
         android:id="@+id/textView3"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.10"
@@ -102,7 +104,7 @@
         android:layout_height="wrap_content"
         android:text="Add"
         android:id="@+id/update"
-        android:background="#0099FF"
+        style="@style/rounded_but"
         android:clickable="true"
         android:layout_below="@+id/textRep"
         android:layout_centerHorizontal="true" />
@@ -113,6 +115,7 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/textWeight"
+        android:textColor="#FFFFFF"
         android:layout_above="@+id/textView3"
         android:layout_centerHorizontal="true"
         android:gravity="center" />
@@ -123,6 +126,7 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/textRep"
+        android:textColor="#FFFFFF"
         android:layout_alignBottom="@+id/plus2"
         android:layout_toStartOf="@+id/plus2"
         android:gravity="center" />
@@ -132,7 +136,7 @@
         android:layout_height="wrap_content"
         android:text="Edit"
         android:id="@+id/edit"
-        android:background="#0099FF"
+        style="@style/rounded_but"
         android:layout_marginEnd="45dp"
         android:layout_below="@+id/minus2"
         android:layout_alignEnd="@+id/update" />
@@ -142,7 +146,7 @@
         android:layout_height="wrap_content"
         android:text="Delete"
         android:id="@+id/delete"
-        android:background="#BBFF3000"
+        style="@style/rounded_but"
         android:layout_marginStart="56dp"
         android:layout_below="@+id/plus2"
         android:layout_alignStart="@+id/update" />
