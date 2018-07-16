@@ -23,4 +23,8 @@
     <string name="action_done">Done</string>
     <string name="title_activity_add_exercise">AddExerciseActivity</string>
     <string name="title_activity_main_menu">MainMenuActivity</string>
+
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
 </resources>

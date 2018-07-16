@@ -275,28 +275,22 @@ public class FirstFragment  extends android.support.v4.app.Fragment {
             dialog = new Dialog(getActivity());
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.countdown_timerr, null);
             dialog.setContentView(view);
-            timer=(TextView)dialog.findViewById(R.id.timer);
-            start=(Button)dialog.findViewById(R.id.start);
-            stop=(Button)dialog.findViewById(R.id.stop);
+            timer = dialog.findViewById(R.id.timer);
+            start = dialog.findViewById(R.id.start);
+            stop = dialog.findViewById(R.id.stop);
             stop.setVisibility(View.GONE);
-            start.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(!timer.getText().toString().equals("")) {
-                        mMyCountDownTimer = new MyCountDownTimer(Long.valueOf(timer.getText().toString()) * 1000, 1000);
-                        mMyCountDownTimer.start();
-                        stop.setVisibility(View.VISIBLE);
-                        start.setVisibility(View.GONE);
-                    }
+            start.setOnClickListener(v -> {
+                if(!timer.getText().toString().equals("")) {
+                    mMyCountDownTimer = new MyCountDownTimer(Long.valueOf(timer.getText().toString()) * 1000, 1000);
+                    mMyCountDownTimer.start();
+                    stop.setVisibility(View.VISIBLE);
+                    start.setVisibility(View.GONE);
                 }
             });
 
-            stop.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mMyCountDownTimer.cancel();
-                    dialog.dismiss();
-                }
+            stop.setOnClickListener(v -> {
+                mMyCountDownTimer.cancel();
+                dialog.dismiss();
             });
             dialog.show();
         }

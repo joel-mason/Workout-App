@@ -2,18 +2,28 @@ package com.company.joeliomason.projectme.Views;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -29,6 +39,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -61,6 +72,7 @@ public class MainMenuActivity extends AppCompatActivity implements
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private GoogleApiClient mGoogleApiClient;
+    private DrawerLayout mDrawerLayout;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -73,6 +85,7 @@ public class MainMenuActivity extends AppCompatActivity implements
         setContentView(R.layout.main_menu_setup);
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        Uri firebaseImage = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
 
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
@@ -138,15 +151,47 @@ public class MainMenuActivity extends AppCompatActivity implements
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.show();
+
+
         try {
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
-            getSupportActionBar().setDisplayUseLogoEnabled(true);
-            getSupportActionBar().setTitle(mFirebaseUser.getDisplayName());
-            //getSupportActionBar().setShowHideAnimationEnabled(true);
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionbar.setTitle(mFirebaseUser.getDisplayName());
         } catch(NullPointerException n) {
             Log.v("nullPointerCaught", n.toString());
         }
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.name);
+        TextView navEmail = headerView.findViewById(R.id.email);
+        ImageView navImage = headerView.findViewById(R.id.imageView);
+        navUsername.setText(mFirebaseUser.getDisplayName());
+        navEmail.setText(mFirebaseUser.getEmail());
+        navImage.setImageURI(firebaseImage);
+        Picasso.get().load(firebaseImage.toString()).into(navImage);
+
+
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        mDrawerLayout.closeDrawers();
+
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
+
+                        return true;
+                    }
+                });
 
 
         // Create the adapter that will return a fragment for each of the three
@@ -179,6 +224,19 @@ public class MainMenuActivity extends AppCompatActivity implements
 
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_cal:
+                Intent intent = new Intent(this, CalendarActivityView.class);
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void setDate(String date) {

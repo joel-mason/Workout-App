@@ -50,7 +50,6 @@ public class MainMenuView2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_menu2, container, false);
-        setHasOptionsMenu(true);
         date = this.getArguments().getString("date");
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -145,7 +144,6 @@ public class MainMenuView2 extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main, menu);
     }
 
     @Override
@@ -153,6 +151,7 @@ public class MainMenuView2 extends Fragment {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        super.onOptionsItemSelected(item);
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement

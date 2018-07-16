@@ -136,7 +136,7 @@
             android:name=".Views.MainMenuActivity"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation"
-            android:label="Project Me">
+            android:theme="@style/AppThemeNoActionBar" >
 
         </activity>
         <activity
